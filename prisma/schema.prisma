@@ -19,7 +19,7 @@ model Job {
   about_job                 String           @db.VarChar(1000)
   key_responsibilities      String[]
   education                 String           @db.VarChar(1000)
-  preferred_qualifications  String           @db.VarChar(1000)
+  preferred_qualifications  String[]           @db.VarChar(1000)
   show_organization_details Boolean
   publish_status            JobPublishStatus @default(draft)
   receive_application_from  DateTime
