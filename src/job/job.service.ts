@@ -22,12 +22,14 @@ export class JobService {
     });
   }
 
-  async findAll(paging: Paging) {
-    console.log(JSON.stringify(paging));
-
-    const take = paging.first || paging.last ? -1 * paging.last : null || 10;
-    const skip = paging.after || paging.before ? 1 : 0;
-    const cursor = paging.after || paging.before;
+  async findAll(paging?: Paging) {
+    const take = paging?.first
+      ? paging?.first
+      : paging?.last
+        ? -1 * paging?.last
+        : 10;
+    const skip = paging?.after || paging?.before ? 1 : 0;
+    const cursor = paging?.after || paging?.before;
     const jobs = await this.prisma.job.findMany({
       take,
       skip,
@@ -36,10 +38,10 @@ export class JobService {
 
     return {
       pageInfo: {
-        hasNextPage: jobs.length === (paging.first || paging.last || 10),
-        hasPreviousPage: !!paging.after,
-        startCursor: null,
-        endCursor: null,
+        hasNextPage: jobs.length === (paging?.first || paging?.last || 10),
+        hasPreviousPage: !!paging?.after,
+        startCursor: jobs.length ? jobs[0].id.toString() : null,
+        endCursor: jobs.length ? jobs[jobs.length - 1].id.toString() : null,
       },
       edges: jobs.map((job) => ({
         cursor: job.id.toString(),

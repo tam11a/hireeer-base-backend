@@ -12,7 +12,7 @@ export class JobResolver {
   }
 
   @Query('jobs')
-  findAll(@Args('paging') paging: Paging) {
+  findAll(@Args('paging') paging?: Paging) {
     return this.jobService.findAll(paging);
   }
 
