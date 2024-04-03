@@ -1,0 +1,61 @@
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+type Job {
+  id: Int!
+  label: String!
+  about_job: String
+  key_responsibilities: [String]
+  education: String
+  preferred_qualifications: [String]
+  show_organization_details: Boolean
+  publish_status: JobPublishStatus
+  receive_application_from: DateTime
+  receive_application_to: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+enum JobPublishStatus {
+  draft
+  published
+  archived
+}
+
+input CreateJobInput {
+  label: String!
+  about_job: String
+  key_responsibilities: [String]
+  education: String
+  preferred_qualifications: [String]
+  show_organization_details: Boolean
+  publish_status: JobPublishStatus
+  receive_application_from: DateTime
+  receive_application_to: DateTime
+}
+
+input UpdateJobInput {
+  id: Int!
+  label: String
+  about_job: String
+  key_responsibilities: [String]
+  education: String
+  preferred_qualifications: [String]
+  show_organization_details: Boolean
+  publish_status: JobPublishStatus
+  receive_application_from: DateTime
+  receive_application_to: DateTime
+}
+
+type Query {
+  jobs: [Job]!
+  job(id: Int!): Job
+}
+
+type Mutation {
+  createJob(createJobInput: CreateJobInput!): Job!
+  updateJob(updateJobInput: UpdateJobInput!): Job!
+  removeJob(id: Int!): Job
+}
