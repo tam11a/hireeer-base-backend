@@ -11,7 +11,7 @@ export class JobResolver {
     return this.jobService.create(createJobInput);
   }
 
-  @Query('job')
+  @Query('jobs')
   findAll() {
     return this.jobService.findAll();
   }
