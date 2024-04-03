@@ -39,6 +39,13 @@ export class UpdateJobInput {
     receive_application_to?: Nullable<DateTime>;
 }
 
+export class Paging {
+    first?: Nullable<number>;
+    last?: Nullable<number>;
+    after?: Nullable<ConnectionCursor>;
+    before?: Nullable<ConnectionCursor>;
+}
+
 export class Job {
     id: number;
     label: string;
@@ -54,8 +61,25 @@ export class Job {
     updated_at: DateTime;
 }
 
+export class PageInfo {
+    hasNextPage?: Nullable<boolean>;
+    hasPreviousPage?: Nullable<boolean>;
+    startCursor?: Nullable<ConnectionCursor>;
+    endCursor?: Nullable<ConnectionCursor>;
+}
+
+export class JobConnection {
+    pageInfo: PageInfo;
+    edges: Nullable<JobEdge>[];
+}
+
+export class JobEdge {
+    cursor: ConnectionCursor;
+    node: Job;
+}
+
 export abstract class IQuery {
-    abstract jobs(): Nullable<Job>[] | Promise<Nullable<Job>[]>;
+    abstract jobs(paging?: Nullable<Paging>): JobConnection | Promise<JobConnection>;
 
     abstract job(id: number): Nullable<Job> | Promise<Nullable<Job>>;
 }
@@ -69,4 +93,5 @@ export abstract class IMutation {
 }
 
 export type DateTime = any;
+export type ConnectionCursor = any;
 type Nullable<T> = T | null;

@@ -1,7 +1,5 @@
-"""
-The javascript `Date` as string. Type represents date and time as the ISO Date string.
-"""
 scalar DateTime
+scalar ConnectionCursor
 
 type Job {
   id: Int!
@@ -49,8 +47,32 @@ input UpdateJobInput {
   receive_application_to: DateTime
 }
 
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: ConnectionCursor
+  endCursor: ConnectionCursor
+}
+
+type JobConnection {
+  pageInfo: PageInfo!
+  edges: [JobEdge]!
+}
+
+type JobEdge {
+  cursor: ConnectionCursor!
+  node: Job!
+}
+
+input Paging {
+  first: Int
+  last: Int
+  after: ConnectionCursor
+  before: ConnectionCursor
+}
+
 type Query {
-  jobs: [Job]!
+  jobs(paging: Paging): JobConnection!
   job(id: Int!): Job
 }
 

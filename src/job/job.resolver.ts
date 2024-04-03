@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { JobService } from './job.service';
-import { CreateJobInput, UpdateJobInput } from 'src/graphql';
+import { CreateJobInput, Paging, UpdateJobInput } from 'src/graphql';
 
 @Resolver('Job')
 export class JobResolver {
@@ -12,8 +12,8 @@ export class JobResolver {
   }
 
   @Query('jobs')
-  findAll() {
-    return this.jobService.findAll();
+  findAll(@Args('paging') paging: Paging) {
+    return this.jobService.findAll(paging);
   }
 
   @Query('job')

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateJobInput, UpdateJobInput } from 'src/graphql';
+import { CreateJobInput, Paging, UpdateJobInput } from 'src/graphql';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -22,8 +22,30 @@ export class JobService {
     });
   }
 
-  findAll() {
-    return this.prisma.job.findMany();
+  async findAll(paging: Paging) {
+    console.log(JSON.stringify(paging));
+
+    const take = paging.first || paging.last ? -1 * paging.last : null || 10;
+    const skip = paging.after || paging.before ? 1 : 0;
+    const cursor = paging.after || paging.before;
+    const jobs = await this.prisma.job.findMany({
+      take,
+      skip,
+      cursor: cursor ? { id: parseInt(cursor) } : undefined,
+    });
+
+    return {
+      pageInfo: {
+        hasNextPage: jobs.length === (paging.first || paging.last || 10),
+        hasPreviousPage: !!paging.after,
+        startCursor: null,
+        endCursor: null,
+      },
+      edges: jobs.map((job) => ({
+        cursor: job.id.toString(),
+        node: job,
+      })),
+    };
   }
 
   findOne(id: number) {
