@@ -14,10 +14,18 @@ export class JobService {
         key_responsibilities: createJobInput.key_responsibilities,
         education: createJobInput.education,
         preferred_qualifications: createJobInput.preferred_qualifications,
+        skills: {
+          connect: createJobInput.skills?.map((skillId) => ({
+            id: skillId,
+          })),
+        },
         show_organization_details: createJobInput.show_organization_details,
         publish_status: createJobInput.publish_status,
         receive_application_from: createJobInput.receive_application_from,
         receive_application_to: createJobInput.receive_application_to,
+      },
+      include: {
+        skills: true,
       },
     });
   }
@@ -34,6 +42,9 @@ export class JobService {
       take,
       skip,
       cursor: cursor ? { id: parseInt(cursor) } : undefined,
+      include: {
+        skills: true,
+      },
     });
 
     return {
@@ -55,6 +66,9 @@ export class JobService {
       where: {
         id,
       },
+      include: {
+        skills: true,
+      },
     });
   }
 
@@ -68,11 +82,19 @@ export class JobService {
         about_job: updateJobInput.about_job,
         key_responsibilities: updateJobInput.key_responsibilities,
         education: updateJobInput.education,
+        skills: {
+          set: updateJobInput.skills?.map((skillId) => ({
+            id: skillId,
+          })),
+        },
         preferred_qualifications: updateJobInput.preferred_qualifications,
         show_organization_details: updateJobInput.show_organization_details,
         publish_status: updateJobInput.publish_status,
         receive_application_from: updateJobInput.receive_application_from,
         receive_application_to: updateJobInput.receive_application_to,
+      },
+      include: {
+        skills: true,
       },
     });
   }

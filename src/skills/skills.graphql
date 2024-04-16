@@ -1,0 +1,54 @@
+scalar DateTime
+scalar ConnectionCursor
+
+type Skill {
+  id: Int!
+  label: String!
+  jobs: [Job]!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input CreateSkillInput {
+  label: String!
+}
+
+input UpdateSkillInput {
+  id: Int!
+  label: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: ConnectionCursor
+  endCursor: ConnectionCursor
+}
+
+type SkillConnection {
+  pageInfo: PageInfo!
+  edges: [SkillEdge]!
+}
+
+type SkillEdge {
+  node: Skill!
+  cursor: ConnectionCursor!
+}
+
+input Paging {
+  first: Int
+  last: Int
+  after: ConnectionCursor
+  before: ConnectionCursor
+}
+
+type Query {
+  skills(paging: Paging): SkillConnection!
+  skill(id: Int!): Skill
+}
+
+type Mutation {
+  createSkill(createSkillInput: CreateSkillInput!): Skill!
+  updateSkill(updateSkillInput: UpdateSkillInput!): Skill!
+  removeSkill(id: Int!): Skill
+}

@@ -6,6 +6,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { JobModule } from './job/job.module';
+import { SkillsModule } from './skills/skills.module';
 @Module({
   imports: [
     PrismaModule,
@@ -22,6 +23,7 @@ import { JobModule } from './job/job.module';
       },
     }),
     JobModule,
+    SkillsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

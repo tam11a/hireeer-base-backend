@@ -20,6 +20,7 @@ export class CreateJobInput {
     key_responsibilities?: Nullable<Nullable<string>[]>;
     education?: Nullable<string>;
     preferred_qualifications?: Nullable<Nullable<string>[]>;
+    skills?: Nullable<Nullable<number>[]>;
     show_organization_details?: Nullable<boolean>;
     publish_status?: Nullable<JobPublishStatus>;
     receive_application_from?: Nullable<DateTime>;
@@ -33,6 +34,7 @@ export class UpdateJobInput {
     key_responsibilities?: Nullable<Nullable<string>[]>;
     education?: Nullable<string>;
     preferred_qualifications?: Nullable<Nullable<string>[]>;
+    skills?: Nullable<Nullable<number>[]>;
     show_organization_details?: Nullable<boolean>;
     publish_status?: Nullable<JobPublishStatus>;
     receive_application_from?: Nullable<DateTime>;
@@ -46,6 +48,15 @@ export class Paging {
     before?: Nullable<ConnectionCursor>;
 }
 
+export class CreateSkillInput {
+    label: string;
+}
+
+export class UpdateSkillInput {
+    id: number;
+    label: string;
+}
+
 export class Job {
     id: number;
     label: string;
@@ -53,6 +64,7 @@ export class Job {
     key_responsibilities?: Nullable<Nullable<string>[]>;
     education?: Nullable<string>;
     preferred_qualifications?: Nullable<Nullable<string>[]>;
+    skills: Nullable<Skill>[];
     show_organization_details?: Nullable<boolean>;
     publish_status?: Nullable<JobPublishStatus>;
     receive_application_from?: Nullable<DateTime>;
@@ -82,6 +94,10 @@ export abstract class IQuery {
     abstract jobs(paging?: Nullable<Paging>): JobConnection | Promise<JobConnection>;
 
     abstract job(id: number): Nullable<Job> | Promise<Nullable<Job>>;
+
+    abstract skills(paging?: Nullable<Paging>): SkillConnection | Promise<SkillConnection>;
+
+    abstract skill(id: number): Nullable<Skill> | Promise<Nullable<Skill>>;
 }
 
 export abstract class IMutation {
@@ -90,6 +106,30 @@ export abstract class IMutation {
     abstract updateJob(updateJobInput: UpdateJobInput): Job | Promise<Job>;
 
     abstract removeJob(id: number): Nullable<Job> | Promise<Nullable<Job>>;
+
+    abstract createSkill(createSkillInput: CreateSkillInput): Skill | Promise<Skill>;
+
+    abstract updateSkill(updateSkillInput: UpdateSkillInput): Skill | Promise<Skill>;
+
+    abstract removeSkill(id: number): Nullable<Skill> | Promise<Nullable<Skill>>;
+}
+
+export class Skill {
+    id: number;
+    label: string;
+    jobs: Nullable<Job>[];
+    created_at: DateTime;
+    updated_at: DateTime;
+}
+
+export class SkillConnection {
+    pageInfo: PageInfo;
+    edges: Nullable<SkillEdge>[];
+}
+
+export class SkillEdge {
+    node: Skill;
+    cursor: ConnectionCursor;
 }
 
 export type DateTime = any;
