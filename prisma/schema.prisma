@@ -14,22 +14,85 @@ datasource db {
 }
 
 model Job {
-  id                        Int              @id @default(autoincrement())
+  id                        Int               @id @default(autoincrement())
   label                     String
-  about_job                 String           @db.VarChar(1000)
+  about_job                 String            @db.VarChar(1000)
   key_responsibilities      String[]
-  education                 String           @db.VarChar(1000)
+  education                 String            @db.VarChar(1000)
   preferred_qualifications  String[]
   show_organization_details Boolean
-  publish_status            JobPublishStatus @default(draft)
+  skills                    Skill[]
+  job_type                  JobTybe[]
+  work_type                 WorkType[]
+  salary_type               SalaryType[]
+  industry                  Industry[]
+  location                  Location[]
+  experience_level          ExperienceLevel[]
+  publish_status            JobPublishStatus  @default(draft)
   receive_application_from  DateTime
   receive_application_to    DateTime
-  created_at                DateTime         @default(now())
-  updated_at                DateTime         @updatedAt
+  created_at                DateTime          @default(now())
+  updated_at                DateTime          @updatedAt
 }
 
 enum JobPublishStatus {
   draft
   published
   archived
+}
+
+model Skill {
+  id         Int      @id @default(autoincrement())
+  label      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  jobs       Job[]
+}
+
+model JobTybe {
+  id         Int      @id @default(autoincrement())
+  label      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  jobs       Job[]
+}
+
+model WorkType {
+  id         Int      @id @default(autoincrement())
+  label      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  jobs       Job[]
+}
+
+model SalaryType {
+  id         Int      @id @default(autoincrement())
+  label      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  jobs       Job[]
+}
+
+model Industry {
+  id         Int      @id @default(autoincrement())
+  label      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  jobs       Job[]
+}
+
+model Location {
+  id         Int      @id @default(autoincrement())
+  label      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  jobs       Job[]
+}
+
+model ExperienceLevel {
+  id         Int      @id @default(autoincrement())
+  label      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  jobs       Job[]
 }
