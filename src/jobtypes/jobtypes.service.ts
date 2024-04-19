@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSkillInput, Paging, UpdateSkillInput } from 'src/graphql';
+import { CreateJobtypeInput, Paging, UpdateJobtypeInput } from 'src/graphql';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 const default_include = {
@@ -7,13 +7,12 @@ const default_include = {
 };
 
 @Injectable()
-export class SkillsService {
+export class JobtypesService {
   constructor(private prisma: PrismaService) {}
-
-  create(createSkillInput: CreateSkillInput) {
-    return this.prisma.skill.create({
+  create(createJobtypeInput: CreateJobtypeInput) {
+    return this.prisma.jobTybe.create({
       data: {
-        label: createSkillInput.label,
+        label: createJobtypeInput.label,
       },
       include: { ...default_include },
     });
@@ -27,7 +26,7 @@ export class SkillsService {
         : 10;
     const skip = paging?.after || paging?.before ? 1 : 0;
     const cursor = paging?.after || paging?.before;
-    const skills = await this.prisma.skill.findMany({
+    const jobtypes = await this.prisma.jobTybe.findMany({
       take,
       skip,
       cursor: cursor ? { id: parseInt(cursor) } : undefined,
@@ -35,22 +34,22 @@ export class SkillsService {
     });
     return {
       pageInfo: {
-        hasNextPage: skills.length === (paging?.first || paging?.last || 10),
+        hasNextPage: jobtypes.length === (paging?.first || paging?.last || 10),
         hasPreviousPage: !!paging?.after,
-        startCursor: skills.length ? skills[0].id.toString() : null,
-        endCursor: skills.length
-          ? skills[skills.length - 1].id.toString()
+        startCursor: jobtypes.length ? jobtypes[0].id.toString() : null,
+        endCursor: jobtypes.length
+          ? jobtypes[jobtypes.length - 1].id.toString()
           : null,
       },
-      edges: skills.map((skill) => ({
-        cursor: skill.id.toString(),
-        node: skill,
+      edges: jobtypes.map((jobtype) => ({
+        cursor: jobtype.id.toString(),
+        node: jobtype,
       })),
     };
   }
 
   findOne(id: number) {
-    return this.prisma.skill.findUnique({
+    return this.prisma.jobTybe.findUnique({
       where: {
         id,
       },
@@ -58,20 +57,20 @@ export class SkillsService {
     });
   }
 
-  update(id: number, updateSkillInput: UpdateSkillInput) {
-    return this.prisma.skill.update({
+  update(id: number, updateJobtypeInput: UpdateJobtypeInput) {
+    return this.prisma.jobTybe.update({
       where: {
         id,
       },
       data: {
-        label: updateSkillInput.label,
+        label: updateJobtypeInput.label,
       },
       include: { ...default_include },
     });
   }
 
   remove(id: number) {
-    return this.prisma.skill.delete({
+    return this.prisma.jobTybe.delete({
       where: {
         id,
       },
