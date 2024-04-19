@@ -26,6 +26,9 @@ export class SkillsService {
       take,
       skip,
       cursor: cursor ? { id: parseInt(cursor) } : undefined,
+      include: {
+        jobs: true,
+      },
     });
     return {
       pageInfo: {
@@ -47,6 +50,9 @@ export class SkillsService {
     return this.prisma.skill.findUnique({
       where: {
         id,
+      },
+      include: {
+        jobs: true,
       },
     });
   }
