@@ -22,6 +22,7 @@ export class CreateJobInput {
     preferred_qualifications?: Nullable<Nullable<string>[]>;
     skills?: Nullable<Nullable<number>[]>;
     job_type?: Nullable<Nullable<number>[]>;
+    work_type?: Nullable<Nullable<number>[]>;
     show_organization_details?: Nullable<boolean>;
     publish_status?: Nullable<JobPublishStatus>;
     receive_application_from?: Nullable<DateTime>;
@@ -37,6 +38,7 @@ export class UpdateJobInput {
     preferred_qualifications?: Nullable<Nullable<string>[]>;
     skills?: Nullable<Nullable<number>[]>;
     job_type?: Nullable<Nullable<number>[]>;
+    work_type?: Nullable<Nullable<number>[]>;
     show_organization_details?: Nullable<boolean>;
     publish_status?: Nullable<JobPublishStatus>;
     receive_application_from?: Nullable<DateTime>;
@@ -68,6 +70,15 @@ export class UpdateSkillInput {
     label: string;
 }
 
+export class CreateWorktypeInput {
+    label: string;
+}
+
+export class UpdateWorktypeInput {
+    id: number;
+    label: string;
+}
+
 export class Job {
     id: number;
     label: string;
@@ -77,6 +88,7 @@ export class Job {
     preferred_qualifications?: Nullable<Nullable<string>[]>;
     skills: Nullable<Skill>[];
     job_type: Nullable<Jobtype>[];
+    work_type: Nullable<Worktype>[];
     show_organization_details?: Nullable<boolean>;
     publish_status?: Nullable<JobPublishStatus>;
     receive_application_from?: Nullable<DateTime>;
@@ -114,6 +126,10 @@ export abstract class IQuery {
     abstract skills(paging?: Nullable<Paging>): SkillConnection | Promise<SkillConnection>;
 
     abstract skill(id: number): Nullable<Skill> | Promise<Nullable<Skill>>;
+
+    abstract worktypes(paging?: Nullable<Paging>): WorktypeConnection | Promise<WorktypeConnection>;
+
+    abstract worktype(id: number): Nullable<Worktype> | Promise<Nullable<Worktype>>;
 }
 
 export abstract class IMutation {
@@ -134,6 +150,12 @@ export abstract class IMutation {
     abstract updateSkill(updateSkillInput: UpdateSkillInput): Skill | Promise<Skill>;
 
     abstract removeSkill(id: number): Nullable<Skill> | Promise<Nullable<Skill>>;
+
+    abstract createWorktype(createWorktypeInput: CreateWorktypeInput): Worktype | Promise<Worktype>;
+
+    abstract updateWorktype(updateWorktypeInput: UpdateWorktypeInput): Worktype | Promise<Worktype>;
+
+    abstract removeWorktype(id: number): Nullable<Worktype> | Promise<Nullable<Worktype>>;
 }
 
 export class Jobtype {
@@ -169,6 +191,24 @@ export class SkillConnection {
 
 export class SkillEdge {
     node: Skill;
+    cursor: ConnectionCursor;
+}
+
+export class Worktype {
+    id: number;
+    label: string;
+    jobs: Nullable<Job>[];
+    created_at: DateTime;
+    updated_at: DateTime;
+}
+
+export class WorktypeConnection {
+    pageInfo: PageInfo;
+    edges: Nullable<WorktypeEdge>[];
+}
+
+export class WorktypeEdge {
+    node: Worktype;
     cursor: ConnectionCursor;
 }
 

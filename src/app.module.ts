@@ -8,6 +8,7 @@ import { join } from 'path';
 import { JobModule } from './job/job.module';
 import { SkillsModule } from './skills/skills.module';
 import { JobtypesModule } from './jobtypes/jobtypes.module';
+import { WorktypesModule } from './worktypes/worktypes.module';
 @Module({
   imports: [
     PrismaModule,
@@ -26,6 +27,7 @@ import { JobtypesModule } from './jobtypes/jobtypes.module';
     JobModule,
     SkillsModule,
     JobtypesModule,
+    WorktypesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

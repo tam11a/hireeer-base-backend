@@ -1,0 +1,54 @@
+scalar DateTime
+scalar ConnectionCursor
+
+type Worktype {
+  id: Int!
+  label: String!
+  jobs: [Job]!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input CreateWorktypeInput {
+  label: String!
+}
+
+input UpdateWorktypeInput {
+  id: Int!
+  label: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: ConnectionCursor
+  endCursor: ConnectionCursor
+}
+
+type WorktypeConnection {
+  pageInfo: PageInfo!
+  edges: [WorktypeEdge]!
+}
+
+type WorktypeEdge {
+  node: Worktype!
+  cursor: ConnectionCursor!
+}
+
+input Paging {
+  first: Int
+  last: Int
+  after: ConnectionCursor
+  before: ConnectionCursor
+}
+
+type Query {
+  worktypes(paging: Paging): WorktypeConnection!
+  worktype(id: Int!): Worktype
+}
+
+type Mutation {
+  createWorktype(createWorktypeInput: CreateWorktypeInput!): Worktype!
+  updateWorktype(updateWorktypeInput: UpdateWorktypeInput!): Worktype!
+  removeWorktype(id: Int!): Worktype
+}

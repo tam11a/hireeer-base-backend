@@ -10,6 +10,7 @@ type Job {
   preferred_qualifications: [String]
   skills: [Skill]!
   job_type: [Jobtype]!
+  work_type: [Worktype]!
   show_organization_details: Boolean
   publish_status: JobPublishStatus
   receive_application_from: DateTime
@@ -32,6 +33,7 @@ input CreateJobInput {
   preferred_qualifications: [String]
   skills: [Int]
   job_type: [Int]
+  work_type: [Int]
   show_organization_details: Boolean
   publish_status: JobPublishStatus
   receive_application_from: DateTime
@@ -47,6 +49,7 @@ input UpdateJobInput {
   preferred_qualifications: [String]
   skills: [Int]
   job_type: [Int]
+  work_type: [Int]
   show_organization_details: Boolean
   publish_status: JobPublishStatus
   receive_application_from: DateTime

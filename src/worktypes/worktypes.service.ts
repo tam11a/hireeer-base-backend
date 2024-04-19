@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateJobtypeInput, Paging, UpdateJobtypeInput } from 'src/graphql';
+import { Paging } from 'src/graphql';
+import { CreateWorktypeInput, UpdateWorktypeInput } from 'src/graphql';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 const default_include = {
@@ -7,13 +8,13 @@ const default_include = {
 };
 
 @Injectable()
-export class JobtypesService {
+export class WorktypesService {
   constructor(private prisma: PrismaService) {}
 
-  create(createJobtypeInput: CreateJobtypeInput) {
-    return this.prisma.jobTybe.create({
+  create(createWorktypeInput: CreateWorktypeInput) {
+    return this.prisma.workType.create({
       data: {
-        label: createJobtypeInput.label,
+        label: createWorktypeInput.label,
       },
       include: { ...default_include },
     });
@@ -27,7 +28,7 @@ export class JobtypesService {
         : 10;
     const skip = paging?.after || paging?.before ? 1 : 0;
     const cursor = paging?.after || paging?.before;
-    const jobtypes = await this.prisma.jobTybe.findMany({
+    const worktypes = await this.prisma.workType.findMany({
       take,
       skip,
       cursor: cursor ? { id: parseInt(cursor) } : undefined,
@@ -35,22 +36,22 @@ export class JobtypesService {
     });
     return {
       pageInfo: {
-        hasNextPage: jobtypes.length === (paging?.first || paging?.last || 10),
+        hasNextPage: worktypes.length === (paging?.first || paging?.last || 10),
         hasPreviousPage: !!paging?.after,
-        startCursor: jobtypes.length ? jobtypes[0].id.toString() : null,
-        endCursor: jobtypes.length
-          ? jobtypes[jobtypes.length - 1].id.toString()
+        startCursor: worktypes.length ? worktypes[0].id.toString() : null,
+        endCursor: worktypes.length
+          ? worktypes[worktypes.length - 1].id.toString()
           : null,
       },
-      edges: jobtypes.map((jobtype) => ({
-        cursor: jobtype.id.toString(),
-        node: jobtype,
+      edges: worktypes.map((worktype) => ({
+        cursor: worktype.id.toString(),
+        node: worktype,
       })),
     };
   }
 
   findOne(id: number) {
-    return this.prisma.jobTybe.findUnique({
+    return this.prisma.workType.findUnique({
       where: {
         id,
       },
@@ -58,24 +59,23 @@ export class JobtypesService {
     });
   }
 
-  update(id: number, updateJobtypeInput: UpdateJobtypeInput) {
-    return this.prisma.jobTybe.update({
+  update(id: number, updateWorktypeInput: UpdateWorktypeInput) {
+    return this.prisma.workType.update({
       where: {
         id,
       },
       data: {
-        label: updateJobtypeInput.label,
+        label: updateWorktypeInput.label,
       },
       include: { ...default_include },
     });
   }
 
   remove(id: number) {
-    return this.prisma.jobTybe.delete({
+    return this.prisma.workType.delete({
       where: {
         id,
       },
-      include: { ...default_include },
     });
   }
 }

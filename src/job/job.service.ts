@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 const default_include = {
   skills: true,
   job_type: true,
+  work_type: true,
 };
 
 @Injectable()
@@ -27,6 +28,11 @@ export class JobService {
         job_type: {
           connect: createJobInput.job_type?.map((jobTypeId) => ({
             id: jobTypeId,
+          })),
+        },
+        work_type: {
+          connect: createJobInput.work_type?.map((workTypeId) => ({
+            id: workTypeId,
           })),
         },
         show_organization_details: createJobInput.show_organization_details,
@@ -72,10 +78,7 @@ export class JobService {
       where: {
         id,
       },
-      include: {
-        skills: true,
-        job_type: true,
-      },
+      include: { ...default_include },
     });
   }
 
@@ -97,6 +100,11 @@ export class JobService {
         job_type: {
           set: updateJobInput.job_type?.map((jobTypeId) => ({
             id: jobTypeId,
+          })),
+        },
+        work_type: {
+          set: updateJobInput.work_type?.map((workTypeId) => ({
+            id: workTypeId,
           })),
         },
         preferred_qualifications: updateJobInput.preferred_qualifications,
