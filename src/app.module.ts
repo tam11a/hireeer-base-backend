@@ -9,6 +9,9 @@ import { JobModule } from './job/job.module';
 import { SkillsModule } from './skills/skills.module';
 import { JobtypesModule } from './jobtypes/jobtypes.module';
 import { WorktypesModule } from './worktypes/worktypes.module';
+import { IndustriesModule } from './industries/industries.module';
+import { LocationsModule } from './locations/locations.module';
+import { ExperiencelevelsModule } from './experiencelevels/experiencelevels.module';
 @Module({
   imports: [
     PrismaModule,
@@ -28,6 +31,9 @@ import { WorktypesModule } from './worktypes/worktypes.module';
     SkillsModule,
     JobtypesModule,
     WorktypesModule,
+    IndustriesModule,
+    LocationsModule,
+    ExperiencelevelsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

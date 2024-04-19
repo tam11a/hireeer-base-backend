@@ -1,0 +1,54 @@
+scalar DateTime
+scalar ConnectionCursor
+
+type Industry {
+  id: Int!
+  label: String!
+  jobs: [Job]!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input CreateIndustryInput {
+  label: String!
+}
+
+input UpdateIndustryInput {
+  id: Int!
+  label: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: ConnectionCursor
+  endCursor: ConnectionCursor
+}
+
+type IndustryConnection {
+  pageInfo: PageInfo!
+  edges: [IndustryEdge]!
+}
+
+type IndustryEdge {
+  node: Industry!
+  cursor: ConnectionCursor!
+}
+
+input Paging {
+  first: Int
+  last: Int
+  after: ConnectionCursor
+  before: ConnectionCursor
+}
+
+type Query {
+  industries(paging: Paging): IndustryConnection!
+  industry(id: Int!): Industry
+}
+
+type Mutation {
+  createIndustry(createIndustryInput: CreateIndustryInput!): Industry!
+  updateIndustry(updateIndustryInput: UpdateIndustryInput!): Industry!
+  removeIndustry(id: Int!): Industry
+}

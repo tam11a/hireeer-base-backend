@@ -6,6 +6,9 @@ const default_include = {
   skills: true,
   job_type: true,
   work_type: true,
+  industry: true,
+  location: true,
+  experience_level: true,
 };
 
 @Injectable()
@@ -34,6 +37,23 @@ export class JobService {
           connect: createJobInput.work_type?.map((workTypeId) => ({
             id: workTypeId,
           })),
+        },
+        industry: {
+          connect: createJobInput.industry?.map((industryId) => ({
+            id: industryId,
+          })),
+        },
+        location: {
+          connect: createJobInput.location?.map((locationId) => ({
+            id: locationId,
+          })),
+        },
+        experience_level: {
+          connect: createJobInput.experience_level?.map(
+            (experienceLevelId) => ({
+              id: experienceLevelId,
+            }),
+          ),
         },
         show_organization_details: createJobInput.show_organization_details,
         publish_status: createJobInput.publish_status,
@@ -105,6 +125,21 @@ export class JobService {
         work_type: {
           set: updateJobInput.work_type?.map((workTypeId) => ({
             id: workTypeId,
+          })),
+        },
+        industry: {
+          set: updateJobInput.industry?.map((industryId) => ({
+            id: industryId,
+          })),
+        },
+        location: {
+          set: updateJobInput.location?.map((locationId) => ({
+            id: locationId,
+          })),
+        },
+        experience_level: {
+          set: updateJobInput.experience_level?.map((experienceLevelId) => ({
+            id: experienceLevelId,
           })),
         },
         preferred_qualifications: updateJobInput.preferred_qualifications,

@@ -11,6 +11,9 @@ type Job {
   skills: [Skill]!
   job_type: [Jobtype]!
   work_type: [Worktype]!
+  industry: [Industry]!
+  location: [Location]!
+  experience_level: [Experiencelevel]!
   show_organization_details: Boolean
   publish_status: JobPublishStatus
   receive_application_from: DateTime
@@ -34,6 +37,9 @@ input CreateJobInput {
   skills: [Int]
   job_type: [Int]
   work_type: [Int]
+  industry: [Int]
+  location: [Int]
+  experience_level: [Int]
   show_organization_details: Boolean
   publish_status: JobPublishStatus
   receive_application_from: DateTime
@@ -50,6 +56,9 @@ input UpdateJobInput {
   skills: [Int]
   job_type: [Int]
   work_type: [Int]
+  industry: [Int]
+  location: [Int]
+  experience_level: [Int]
   show_organization_details: Boolean
   publish_status: JobPublishStatus
   receive_application_from: DateTime
