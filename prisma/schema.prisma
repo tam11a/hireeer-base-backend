@@ -24,7 +24,6 @@ model Job {
   skills                    Skill[]
   job_type                  JobTybe[]
   work_type                 WorkType[]
-  salary_type               SalaryType[]
   industry                  Industry[]
   location                  Location[]
   experience_level          ExperienceLevel[]
@@ -58,14 +57,6 @@ model JobTybe {
 }
 
 model WorkType {
-  id         Int      @id @default(autoincrement())
-  label      String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  jobs       Job[]
-}
-
-model SalaryType {
   id         Int      @id @default(autoincrement())
   label      String
   created_at DateTime @default(now())

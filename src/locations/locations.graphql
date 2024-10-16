@@ -1,0 +1,54 @@
+scalar DateTime
+scalar ConnectionCursor
+
+type Location {
+  id: Int!
+  label: String!
+  jobs: [Job]!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input CreateLocationInput {
+  label: String!
+}
+
+input UpdateLocationInput {
+  id: Int!
+  label: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: ConnectionCursor
+  endCursor: ConnectionCursor
+}
+
+type LocationConnection {
+  pageInfo: PageInfo!
+  edges: [LocationEdge]!
+}
+
+type LocationEdge {
+  node: Location!
+  cursor: ConnectionCursor!
+}
+
+input Paging {
+  first: Int
+  last: Int
+  after: ConnectionCursor
+  before: ConnectionCursor
+}
+
+type Query {
+  locations(paging: Paging): LocationConnection!
+  location(id: Int!): Location
+}
+
+type Mutation {
+  createLocation(createLocationInput: CreateLocationInput!): Location!
+  updateLocation(updateLocationInput: UpdateLocationInput!): Location!
+  removeLocation(id: Int!): Location
+}

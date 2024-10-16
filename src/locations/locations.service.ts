@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSkillInput, Paging, UpdateSkillInput } from 'src/graphql';
+import { CreateLocationInput, Paging, UpdateLocationInput } from 'src/graphql';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 const default_include = {
@@ -7,13 +7,13 @@ const default_include = {
 };
 
 @Injectable()
-export class SkillsService {
+export class LocationsService {
   constructor(private prisma: PrismaService) {}
 
-  create(createSkillInput: CreateSkillInput) {
-    return this.prisma.skill.create({
+  create(createLocationInput: CreateLocationInput) {
+    return this.prisma.location.create({
       data: {
-        label: createSkillInput.label,
+        label: createLocationInput.label,
       },
       include: { ...default_include },
     });
@@ -27,7 +27,7 @@ export class SkillsService {
         : 10;
     const skip = paging?.after || paging?.before ? 1 : 0;
     const cursor = paging?.after || paging?.before;
-    const skills = await this.prisma.skill.findMany({
+    const locations = await this.prisma.location.findMany({
       take,
       skip,
       cursor: cursor ? { id: parseInt(cursor) } : undefined,
@@ -35,22 +35,22 @@ export class SkillsService {
     });
     return {
       pageInfo: {
-        hasNextPage: skills.length === (paging?.first || paging?.last || 10),
+        hasNextPage: locations.length === (paging?.first || paging?.last || 10),
         hasPreviousPage: !!paging?.after,
-        startCursor: skills.length ? skills[0].id.toString() : null,
-        endCursor: skills.length
-          ? skills[skills.length - 1].id.toString()
+        startCursor: locations.length ? locations[0].id.toString() : null,
+        endCursor: locations.length
+          ? locations[locations.length - 1].id.toString()
           : null,
       },
-      edges: skills.map((skill) => ({
-        cursor: skill.id.toString(),
-        node: skill,
+      edges: locations.map((location) => ({
+        cursor: location.id.toString(),
+        node: location,
       })),
     };
   }
 
   findOne(id: number) {
-    return this.prisma.skill.findUnique({
+    return this.prisma.location.findUnique({
       where: {
         id,
       },
@@ -58,20 +58,20 @@ export class SkillsService {
     });
   }
 
-  update(id: number, updateSkillInput: UpdateSkillInput) {
-    return this.prisma.skill.update({
+  update(id: number, updateLocationInput: UpdateLocationInput) {
+    return this.prisma.location.update({
       where: {
         id,
       },
       data: {
-        label: updateSkillInput.label,
+        label: updateLocationInput.label,
       },
       include: { ...default_include },
     });
   }
 
   remove(id: number) {
-    return this.prisma.skill.delete({
+    return this.prisma.location.delete({
       where: {
         id,
       },

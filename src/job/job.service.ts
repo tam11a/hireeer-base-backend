@@ -2,6 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { CreateJobInput, Paging, UpdateJobInput } from 'src/graphql';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+const default_include = {
+  skills: true,
+  job_type: true,
+  work_type: true,
+  industry: true,
+  location: true,
+  experience_level: true,
+};
+
 @Injectable()
 export class JobService {
   constructor(private prisma: PrismaService) {}
@@ -19,14 +28,39 @@ export class JobService {
             id: skillId,
           })),
         },
+        job_type: {
+          connect: createJobInput.job_type?.map((jobTypeId) => ({
+            id: jobTypeId,
+          })),
+        },
+        work_type: {
+          connect: createJobInput.work_type?.map((workTypeId) => ({
+            id: workTypeId,
+          })),
+        },
+        industry: {
+          connect: createJobInput.industry?.map((industryId) => ({
+            id: industryId,
+          })),
+        },
+        location: {
+          connect: createJobInput.location?.map((locationId) => ({
+            id: locationId,
+          })),
+        },
+        experience_level: {
+          connect: createJobInput.experience_level?.map(
+            (experienceLevelId) => ({
+              id: experienceLevelId,
+            }),
+          ),
+        },
         show_organization_details: createJobInput.show_organization_details,
         publish_status: createJobInput.publish_status,
         receive_application_from: createJobInput.receive_application_from,
         receive_application_to: createJobInput.receive_application_to,
       },
-      include: {
-        skills: true,
-      },
+      include: { ...default_include },
     });
   }
 
@@ -42,9 +76,7 @@ export class JobService {
       take,
       skip,
       cursor: cursor ? { id: parseInt(cursor) } : undefined,
-      include: {
-        skills: true,
-      },
+      include: { ...default_include },
     });
 
     return {
@@ -66,9 +98,7 @@ export class JobService {
       where: {
         id,
       },
-      include: {
-        skills: true,
-      },
+      include: { ...default_include },
     });
   }
 
@@ -87,15 +117,38 @@ export class JobService {
             id: skillId,
           })),
         },
+        job_type: {
+          set: updateJobInput.job_type?.map((jobTypeId) => ({
+            id: jobTypeId,
+          })),
+        },
+        work_type: {
+          set: updateJobInput.work_type?.map((workTypeId) => ({
+            id: workTypeId,
+          })),
+        },
+        industry: {
+          set: updateJobInput.industry?.map((industryId) => ({
+            id: industryId,
+          })),
+        },
+        location: {
+          set: updateJobInput.location?.map((locationId) => ({
+            id: locationId,
+          })),
+        },
+        experience_level: {
+          set: updateJobInput.experience_level?.map((experienceLevelId) => ({
+            id: experienceLevelId,
+          })),
+        },
         preferred_qualifications: updateJobInput.preferred_qualifications,
         show_organization_details: updateJobInput.show_organization_details,
         publish_status: updateJobInput.publish_status,
         receive_application_from: updateJobInput.receive_application_from,
         receive_application_to: updateJobInput.receive_application_to,
       },
-      include: {
-        skills: true,
-      },
+      include: { ...default_include },
     });
   }
 
@@ -104,6 +157,7 @@ export class JobService {
       where: {
         id,
       },
+      include: { ...default_include },
     });
   }
 }

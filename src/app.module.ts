@@ -7,6 +7,11 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { JobModule } from './job/job.module';
 import { SkillsModule } from './skills/skills.module';
+import { JobtypesModule } from './jobtypes/jobtypes.module';
+import { WorktypesModule } from './worktypes/worktypes.module';
+import { IndustriesModule } from './industries/industries.module';
+import { LocationsModule } from './locations/locations.module';
+import { ExperiencelevelsModule } from './experiencelevels/experiencelevels.module';
 @Module({
   imports: [
     PrismaModule,
@@ -24,6 +29,11 @@ import { SkillsModule } from './skills/skills.module';
     }),
     JobModule,
     SkillsModule,
+    JobtypesModule,
+    WorktypesModule,
+    IndustriesModule,
+    LocationsModule,
+    ExperiencelevelsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

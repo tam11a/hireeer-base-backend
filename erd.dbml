@@ -1,0 +1,103 @@
+Table jobs {
+  id integer [primary key]
+  label varchar 
+  about_job varchar(1000)
+  key_responsibilities json
+  education varchar(1000)
+  preferred_qualifications json
+  skills integer [ref: <> skill.id]
+  job_type integer [ref: <> job_type.id]
+  work_type integer [ref: <> work_type.id]
+  experience_level integer [ref: <> experience_level.id]
+  salary_type integer [ref: <> salary_type.id]
+  industry integer [ref: <> industry.id]
+  location integer [ref: <> location.id]
+  organization integer [ref: > organization.id]
+  show_organization_details organiaztion_show
+  publish_status publish_status
+  opening_at timestamp
+  closing_at timestamp
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Enum publish_status {
+  draft
+  published
+  archived
+}
+
+Enum organiaztion_show {
+  Hide
+  Show
+  Anonymous
+}
+
+Table skill {
+  id integer [primary key]
+  label varchar [unique]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}   
+
+Table job_type {
+  id integer [primary key]
+  label varchar [unique]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}      
+
+Table work_type {
+  id integer [primary key]
+  label varchar [unique]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}  
+
+Table experience_level {
+  id integer [primary key]
+  label varchar [unique]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table salary_type {
+  id integer [primary key]
+  label varchar [unique]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table industry {
+  id integer [primary key]
+  label varchar [unique]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table location {
+  id integer [primary key]
+  label varchar [unique]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+
+Table organization {
+  id integer [primary key]
+  icon_url varchar
+  label varchar [unique]
+  description varchar(1000)
+  urls json
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}

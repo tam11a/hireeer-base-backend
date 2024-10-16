@@ -1,0 +1,54 @@
+scalar DateTime
+scalar ConnectionCursor
+
+type Jobtype {
+  id: Int!
+  label: String!
+  jobs: [Job]!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input CreateJobtypeInput {
+  label: String!
+}
+
+input UpdateJobtypeInput {
+  id: Int!
+  label: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: ConnectionCursor
+  endCursor: ConnectionCursor
+}
+
+type JobtypeConnection {
+  pageInfo: PageInfo!
+  edges: [JobtypeEdge]!
+}
+
+type JobtypeEdge {
+  node: Jobtype!
+  cursor: ConnectionCursor!
+}
+
+input Paging {
+  first: Int
+  last: Int
+  after: ConnectionCursor
+  before: ConnectionCursor
+}
+
+type Query {
+  jobtypes(paging: Paging): JobtypeConnection!
+  jobtype(id: Int!): Jobtype
+}
+
+type Mutation {
+  createJobtype(createJobtypeInput: CreateJobtypeInput!): Jobtype!
+  updateJobtype(updateJobtypeInput: UpdateJobtypeInput!): Jobtype!
+  removeJobtype(id: Int!): Jobtype
+}

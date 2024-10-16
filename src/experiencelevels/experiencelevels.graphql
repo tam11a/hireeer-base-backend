@@ -1,0 +1,58 @@
+scalar DateTime
+scalar ConnectionCursor
+
+type Experiencelevel {
+  id: Int!
+  label: String!
+  jobs: [Job]!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input CreateExperiencelevelInput {
+  label: String!
+}
+
+input UpdateExperiencelevelInput {
+  id: Int!
+  label: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: ConnectionCursor
+  endCursor: ConnectionCursor
+}
+
+type ExperiencelevelConnection {
+  pageInfo: PageInfo!
+  edges: [ExperiencelevelEdge]!
+}
+
+type ExperiencelevelEdge {
+  node: Experiencelevel!
+  cursor: ConnectionCursor!
+}
+
+input Paging {
+  first: Int
+  last: Int
+  after: ConnectionCursor
+  before: ConnectionCursor
+}
+
+type Query {
+  experiencelevels(paging: Paging): ExperiencelevelConnection!
+  experiencelevel(id: Int!): Experiencelevel
+}
+
+type Mutation {
+  createExperiencelevel(
+    createExperiencelevelInput: CreateExperiencelevelInput!
+  ): Experiencelevel!
+  updateExperiencelevel(
+    updateExperiencelevelInput: UpdateExperiencelevelInput!
+  ): Experiencelevel!
+  removeExperiencelevel(id: Int!): Experiencelevel
+}
